@@ -6,27 +6,31 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <button onclick="clickMe('Kristian')">Click Me!</button>
     <p></p>
     <p class="secondParag"></p>
     <script>
-        let text = "How are you doing today?";
-        let myArray = text.split("");   // Split the string into an array of characters
-        myArray = myArray.reverse();  // Reverse the array
-        let reversedText = myArray.join(""); // Join the array back into a string
+        // let text = "How are you doing today?";
+        // let myArray = text.split("");   // Split the string into an array of characters
+        // myArray = myArray.reverse();  // Reverse the array
+        // let reversedText = myArray.join(""); // Join the array back into a string
 
-        //display to dom
-        let paragraphElement = document.querySelector("p");
-        paragraphElement.innerHTML = reversedText;
+        // //display to dom
+        // let paragraphElement = document.querySelector("p");
+        // paragraphElement.innerHTML = reversedText;
 
-        //reversed again and back into the normal string
-        let reverseAgain = reversedText;
-        reverseAgain = reverseAgain.split("");
-        reverseAgain = reverseAgain.reverse();
-        reverseAgain = reverseAgain.join("");
-        console.log(reverseAgain);
+        // //reversed again and back into the normal string
+        // let reverseAgain = reversedText;
+        // reverseAgain = reverseAgain.split("");
+        // reverseAgain = reverseAgain.reverse();
+        // reverseAgain = reverseAgain.join("");
+        // console.log(reverseAgain);
 
-        document.querySelector('.secondParag').innerHTML = reverseAgain;
+        // document.querySelector('.secondParag').innerHTML = reverseAgain;
+
+        function clickMe(name){
+            alert('this is the world ' + name)
+        }
 
 
     </script>
