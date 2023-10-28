@@ -1,6 +1,7 @@
+import {cart} from "../data/cart.js";
 let productsHTML = "";
 
-products.forEach((product) => {
+products.forEach((product,index) => {
   productsHTML += `<div class="product-container">
   <div class="product-image-container">
     <img class="product-image"
@@ -24,8 +25,8 @@ products.forEach((product) => {
   </div>
 
   <div class="product-quantity-container">
-    <select>
-      <option selected value="1">1</option>
+    <select id="product-quantity-${product.id}">
+      <option value="1">1</option>
       <option value="2">2</option>
       <option value="3">3</option>
       <option value="4">4</option>
@@ -40,12 +41,12 @@ products.forEach((product) => {
 
   <div class="product-spacer"></div>
 
-  <div class="added-to-cart">
+  <div class="added-to-cart js-added-to-cart-${product.id}">
     <img src="images/icons/checkmark.png">
     Added
   </div>
 
-  <button class="add-to-cart-button button-primary">
+  <button class="add-to-cart-button button-primary js-add-to-cart" data-product-name="${product.name}" data-product-id="${product.id}" data-product-price="${product.priceCents}" data-product-index="${index}">
     Add to Cart
   </button>
 </div>`;
@@ -53,3 +54,75 @@ products.forEach((product) => {
 
 let container = document.querySelector(".products-grid");
 container.innerHTML += productsHTML;
+
+
+// productQuantity.addEventListener("change", () => {
+//   let quantity = productQuantity.value;
+//   console.log(quantity);
+// });
+
+
+let addToCartButtons = document.querySelectorAll(".js-add-to-cart");
+let cartQuantityElement = document.querySelector(".cart-quantity");
+let cartNotificationId;
+
+addToCartButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    let productId = button.getAttribute("data-product-id");
+    let productName = button.getAttribute("data-product-name");
+    let productPrice = button.getAttribute("data-product-price");
+    let addedToCartNotification = document.querySelector(`.js-added-to-cart-${productId}`);
+    // let productIndex = button.getAttribute("data-product-index");
+    let productQuantityDropdown = document.querySelector(`#product-quantity-${productId}`); // Get the dropdown element
+    let selectedQuantity = productQuantityDropdown.value;
+    // selectedQuantity = parseInt(selectedQuantity);
+    selectedQuantity = Number(selectedQuantity);
+    
+    let matchingItem; 
+
+    cart.forEach((item) => {
+      if (item.productId === productId) {
+        matchingItem = item;
+      }
+    });
+
+    
+
+    if(!matchingItem){
+      let customerOrder = {
+        productId,
+        productName,
+        productPrice,
+        selectedQuantity
+      };
+      cart.push(customerOrder);
+    }else{
+      matchingItem.selectedQuantity += selectedQuantity;
+      
+    }
+    
+    let cartQuantity = 0;
+    cart.forEach(item => {
+      cartQuantity += item.selectedQuantity;
+    });
+
+    cartQuantityElement.innerHTML = cartQuantity;
+    addedToCartNotification.style.opacity = 1;
+
+    if(cartNotificationId){
+      clearTimeout(cartNotificationId);
+    }
+    
+    cartNotificationId = setTimeout(()=>{
+      addedToCartNotification.style.opacity = 0;
+    },2000);
+
+    productQuantityDropdown.value = 1;
+    console.log(cart);
+
+  });
+});
+
+
+
+
