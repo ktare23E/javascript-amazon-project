@@ -1,7 +1,9 @@
 import {cart} from '../data/cart.js';
 import {products} from '../data/products.js';
+import { formatCurrency,productName,imgPath } from '../utils/money.js';
 
 let cartsHTML = "";
+let addOne = 1;
 let totalQuantity;
 let matchingProduct;
 
@@ -21,14 +23,14 @@ cart.forEach((cartItem, index) => {
 
     <div class="cart-item-details-grid">
       <img class="product-image"
-        src="${matchingProduct.image}">
+        src="${imgPath(matchingProduct.image)}">
 
       <div class="cart-item-details">
         <div class="product-name">
-          ${matchingProduct.name}
+          ${productName(matchingProduct.name)}
         </div>
         <div class="product-price">
-          $${(matchingProduct.priceCents/100).toFixed(2)}
+          $${formatCurrency(matchingProduct.priceCents)}
         </div>
         <div class="product-quantity">
           <span>
@@ -48,9 +50,9 @@ cart.forEach((cartItem, index) => {
           Choose a delivery option:
         </div>
         <div class="delivery-option">
-          <input type="radio" checked
+          <input type="radio" 
             class="delivery-option-input"
-            name="delivery-option-1">
+            name="delivery-option-${productId}">
           <div>
             <div class="delivery-option-date">
               Tuesday, June 21
@@ -63,7 +65,7 @@ cart.forEach((cartItem, index) => {
         <div class="delivery-option">
           <input type="radio"
             class="delivery-option-input"
-            name="delivery-option-1">
+            name="delivery-option-${productId}">
           <div>
             <div class="delivery-option-date">
               Wednesday, June 15
@@ -76,7 +78,7 @@ cart.forEach((cartItem, index) => {
         <div class="delivery-option">
           <input type="radio"
             class="delivery-option-input"
-            name="delivery-option-1">
+            name="delivery-option-${productId}">
           <div>
             <div class="delivery-option-date">
               Monday, June 13
@@ -90,8 +92,9 @@ cart.forEach((cartItem, index) => {
     </div>
   </div>
     `;
-
 });
+
 
 let container = document.querySelector(".order-summary");
 container.innerHTML += cartsHTML;
+

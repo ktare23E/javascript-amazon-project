@@ -1,18 +1,21 @@
 import {cart,addToCart} from "../data/cart.js";
 import {products} from '../data/products.js';
+import { formatCurrency,productName,imgPath } from '../utils/money.js';
+
 
 
 let productsHTML = "";
 
 products.forEach((product,index) => {
+
   productsHTML += `<div class="product-container">
   <div class="product-image-container">
     <img class="product-image"
-      src="${product.image}">
+      src="${imgPath(product.image)}">
   </div>
 
   <div class="product-name limit-text-to-2-lines">
-    ${product.name}
+    ${productName(product.name)}
   </div>
 
   <div class="product-rating-container">
@@ -24,7 +27,7 @@ products.forEach((product,index) => {
   </div>
 
   <div class="product-price">
-  $${(product.priceCents / 100).toFixed(2)}
+  $${formatCurrency(product.priceCents)}
   </div>
 
   <div class="product-quantity-container">
