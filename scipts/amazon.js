@@ -1,5 +1,7 @@
-import {cart} from "../data/cart.js";
+import {cart,addToCart} from "../data/cart.js";
 import {products} from '../data/products.js';
+
+
 let productsHTML = "";
 
 products.forEach((product,index) => {
@@ -67,6 +69,31 @@ let addToCartButtons = document.querySelectorAll(".js-add-to-cart");
 let cartQuantityElement = document.querySelector(".cart-quantity");
 let cartNotificationId;
 
+
+function updateCartQuantity(addedToCartNotification, productQuantityDropdown) {
+
+  let cartQuantity = 0;
+  cart.forEach(item => {
+      cartQuantity += item.selectedQuantity;
+  });
+
+  cartQuantityElement.innerHTML = cartQuantity;
+  addedToCartNotification.style.opacity = 1;
+
+  if (cartNotificationId) {
+      clearTimeout(cartNotificationId);
+  }
+
+  cartNotificationId = setTimeout(() => {
+      addedToCartNotification.style.opacity = 0;
+      productQuantityDropdown.value = 1;
+  }, 2000);
+
+  
+  console.log(cart);
+}
+
+
 addToCartButtons.forEach((button) => {
   button.addEventListener("click", () => {
     let productId = button.getAttribute("data-product-id");
@@ -79,47 +106,9 @@ addToCartButtons.forEach((button) => {
     // selectedQuantity = parseInt(selectedQuantity);
     selectedQuantity = Number(selectedQuantity);
     
-    let matchingItem; 
-
-    cart.forEach((item) => {
-      if (item.productId === productId) {
-        matchingItem = item;
-      }
-    });
-
-    
-
-    if(!matchingItem){
-      let customerOrder = {
-        productId,
-        productName,
-        productPrice,
-        selectedQuantity
-      };
-      cart.push(customerOrder);
-    }else{
-      matchingItem.selectedQuantity += selectedQuantity;
-      
-    }
-    
-    let cartQuantity = 0;
-    cart.forEach(item => {
-      cartQuantity += item.selectedQuantity;
-    });
-
-    cartQuantityElement.innerHTML = cartQuantity;
-    addedToCartNotification.style.opacity = 1;
-
-    if(cartNotificationId){
-      clearTimeout(cartNotificationId);
-    }
-    
-    cartNotificationId = setTimeout(()=>{
-      addedToCartNotification.style.opacity = 0;
-    },2000);
-
-    productQuantityDropdown.value = 1;
-    console.log(cart);
+  
+    addToCart(productId,productName,productPrice,selectedQuantity);
+    updateCartQuantity(addedToCartNotification,productQuantityDropdown);
 
   });
 });
