@@ -1,11 +1,17 @@
 import {cart,removeFromCart,displayCartQuantity,updatedQuantityFunction,saveToStorage} from '../data/cart.js';
 import {products} from '../data/products.js';
 import { formatCurrency,productName,imgPath } from '../utils/money.js';
+import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
+import {deliveryOptions} from '../data/deliveryOptions.js';
+
 
 let cartsHTML = "";
 let addOne = 1;
 let totalQuantity = 0;
 let matchingProduct;
+
+
+
 
 cart.forEach((cartItem, index) => {
   const productId = cartItem.productId;
@@ -15,10 +21,26 @@ cart.forEach((cartItem, index) => {
     }
   });
 
+  const deliveryOptionId = cartItem.deliveryOptionId;
+
+  let deliveryOption;
+
+  deliveryOptions.forEach((option) =>{
+    if(option.id === deliveryOptionId){
+      deliveryOption = option;
+    }
+  });
+
+  
+  const today = dayjs();
+  const deliveryDate = today.add(deliveryOption.deliveryDays,'days');
+  const daysFormatted = deliveryDate.format('dddd, MMMM D');
+
+
     cartsHTML += `
     <div class="cart-item-container js-cart-item-container-${productId}">
     <div class="delivery-date">
-      Delivery date: Tuesday, June 21
+      Delivery date: ${daysFormatted}
     </div>
 
     <div class="cart-item-details-grid">
@@ -51,50 +73,14 @@ cart.forEach((cartItem, index) => {
         <div class="delivery-options-title">
           Choose a delivery option:
         </div>
-        <div class="delivery-option">
-          <input type="radio" 
-            class="delivery-option-input"
-            name="delivery-option-${productId}">
-          <div>
-            <div class="delivery-option-date">
-              Tuesday, June 21
-            </div>
-            <div class="delivery-option-price">
-              FREE Shipping
-            </div>
-          </div>
-        </div>
-        <div class="delivery-option">
-          <input type="radio"
-            class="delivery-option-input"
-            name="delivery-option-${productId}">
-          <div>
-            <div class="delivery-option-date">
-              Wednesday, June 15
-            </div>
-            <div class="delivery-option-price">
-              $4.99 - Shipping
-            </div>
-          </div>
-        </div>
-        <div class="delivery-option">
-          <input type="radio"
-            class="delivery-option-input"
-            name="delivery-option-${productId}">
-          <div>
-            <div class="delivery-option-date">
-              Monday, June 13
-            </div>
-            <div class="delivery-option-price">
-              $9.99 - Shipping
-            </div>
-          </div>
-        </div>
+        ${deliveryOptionsHTML(matchingProduct,cartItem)}
       </div>
     </div>
   </div>
     `;
 });
+
+
 
 
 let container = document.querySelector(".order-summary");
@@ -183,6 +169,82 @@ quantityInput.forEach((inputNumber, index) => {
     }
   });
 });
+
+
+
+
+function deliveryOptionsHTML(matchingProduct,cartItem){
+  let optionsHTML = '';
+    deliveryOptions.forEach(deliveryOption => {
+  
+      const today = dayjs();
+      const deliveryDate = today.add(deliveryOption.deliveryDays,'days');
+      const daysFormatted = deliveryDate.format('dddd, MMMM D');
+
+
+      const priceString = deliveryOption.priceCents === 0 ? 'Free': `$${formatCurrency(deliveryOption.priceCents)} -`;
+      const isChecked = deliveryOption.id === cartItem.deliveryOptionId ?  'checked' : '';
+      optionsHTML += `
+    <div class="delivery-option">
+      <input type="radio" 
+        class="delivery-option-input" ${isChecked}
+        name="delivery-option-${matchingProduct.id}">
+      <div>
+        <div class="delivery-option-date add-sevenDays">
+            ${daysFormatted}
+        </div>
+        <div class="delivery-option-price">
+          ${priceString} Shipping
+        </div>
+      </div>
+    </div>
+      `;
+    });
+    return optionsHTML;
+}
+
+// // Delivery dates
+// let today = dayjs();
+// const deliveryDate = document.querySelector('.delivery-date');
+
+
+// // seven days
+// let sevenDaysToDeliver = document.querySelectorAll('.add-sevenDays');
+// let deliveryDateAddSeven = today.add(7,'days');
+// deliveryDateAddSeven = deliveryDateAddSeven.format('dddd, MMMM D');
+
+
+
+// sevenDaysToDeliver.forEach((sevenDays)=>{
+//   sevenDays.innerHTML = deliveryDateAddSeven;
+//   sevenDays.addEventListener('click',function(){
+//     console.log('Hello World');
+//   });
+// });
+
+// // three days
+// let threeDaysToDeliver = document.querySelectorAll('.add-threeDays');
+// let deliveryDateAddThree = today.add(3,'days');
+// deliveryDateAddThree = deliveryDateAddThree.format('dddd, MMMM D');
+
+// threeDaysToDeliver.forEach(threeDays =>{
+//   threeDays.innerHTML = deliveryDateAddThree;
+//   threeDays.addEventListener('change',()=>{
+//     console.log(3);
+//   });
+// });
+
+// //1 day
+// let oneDayToDeliver = document.querySelectorAll('.add-oneDay');
+// let deliveryDateAddOne = today.add(1,'days');
+// deliveryDateAddOne = deliveryDateAddOne.format('dddd, MMMM D');
+
+// oneDayToDeliver.forEach(oneDay =>{
+//   oneDay.innerHTML = deliveryDateAddOne;
+//   oneDay.addEventListener('change',()=>{
+//     console.log(1);
+//   })
+// });
 
 
 
