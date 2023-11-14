@@ -6,12 +6,7 @@ import {deliveryOptions} from '../data/deliveryOptions.js';
 
 
 let cartsHTML = "";
-let addOne = 1;
-let totalQuantity = 0;
 let matchingProduct;
-
-
-
 
 cart.forEach((cartItem, index) => {
   const productId = cartItem.productId;
@@ -181,7 +176,6 @@ function deliveryOptionsHTML(matchingProduct,cartItem){
       const deliveryDate = today.add(deliveryOption.deliveryDays,'days');
       const daysFormatted = deliveryDate.format('dddd, MMMM D');
 
-
       const priceString = deliveryOption.priceCents === 0 ? 'Free': `$${formatCurrency(deliveryOption.priceCents)} -`;
       const isChecked = deliveryOption.id === cartItem.deliveryOptionId ?  'checked' : '';
       optionsHTML += `
@@ -210,14 +204,9 @@ jsDeliveryOption.forEach((element)=>{
     let productId = element.getAttribute('data-product-id');
     let deliveryOptionId = element.getAttribute('data-delivery-option-id');
     updateDeliveryOption(productId,deliveryOptionId);
+    location.reload();
   });
 });
-
-
-
-
-
-
 
 
 
