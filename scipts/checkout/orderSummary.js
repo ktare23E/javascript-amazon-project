@@ -1,32 +1,23 @@
-import {cart,removeFromCart,displayCartQuantity,updatedQuantityFunction,saveToStorage,updateDeliveryOption} from '../../data/cart.js';
-import {products} from '../../data/products.js';
+import {cart,removeFromCart,updatedQuantityFunction,saveToStorage,updateDeliveryOption} from '../../data/cart.js';
+import {products,getProduct} from '../../data/products.js';
 import { formatCurrency,productName,imgPath } from '../../utils/money.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
-import {deliveryOptions} from '../../data/deliveryOptions.js';
+import {deliveryOptions,getDeliveryOption} from '../../data/deliveryOptions.js';
 
 
 
 export function orderSummary(){
 let cartsHTML = "";
-let matchingProduct;
+
 
 cart.forEach((cartItem, index) => {
   const productId = cartItem.productId;
-  products.forEach((product) => {
-    if(productId == product.id){
-      matchingProduct = product;
-    }
-  });
-
+  const matchingProduct = getProduct(productId);
   const deliveryOptionId = cartItem.deliveryOptionId;
+  const deliveryOption = getDeliveryOption(deliveryOptionId);
 
-  let deliveryOption;
 
-  deliveryOptions.forEach((option) =>{
-    if(option.id === deliveryOptionId){
-      deliveryOption = option;
-    }
-  });
+
 
   
   const today = dayjs();
@@ -84,13 +75,14 @@ let container = document.querySelector(".order-summary");
 container.innerHTML += cartsHTML;
 
 let deleteLink = document.querySelectorAll('.delete-quantity-link');
-displayCartQuantity();
+
 
 deleteLink.forEach((link,index)=>{
   link.addEventListener('click',()=>{
     let dataProductId = link.getAttribute('data-product-id');
     let selectedQuantity = link.getAttribute('data-selected-quantity');
     removeFromCart(dataProductId,selectedQuantity);
+    window.location.reload();
   });
 });
 
