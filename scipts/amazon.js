@@ -59,7 +59,7 @@ products.forEach((product,index) => {
 });
 
 let container = document.querySelector(".products-grid");
-container.innerHTML += productsHTML;
+container.innerHTML = productsHTML;
 
 
 // productQuantity.addEventListener("change", () => {
