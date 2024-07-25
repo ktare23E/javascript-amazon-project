@@ -24,6 +24,9 @@ cart.forEach((cartItem, index) => {
   const deliveryDate = today.add(deliveryOption.deliveryDays,'days');
   const daysFormatted = deliveryDate.format('dddd, MMMM D');
 
+  
+  const monthAndDay = deliveryDate.format('MMMM D');
+  console.log(monthAndDay);
 
     cartsHTML += `
     <div class="cart-item-container js-cart-item-container-${productId}">
@@ -158,8 +161,6 @@ quantityInput.forEach((inputNumber, index) => {
     }
   });
 });
-
-
 
 
 function deliveryOptionsHTML(matchingProduct,cartItem){
