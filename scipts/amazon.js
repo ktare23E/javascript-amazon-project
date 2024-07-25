@@ -1,4 +1,4 @@
-import {cart,addToCart} from "../data/cart.js";
+import {cart,addToCart,updateCartQuantity} from "../data/cart.js";
 import {products} from '../data/products.js';
 import { formatCurrency,productName,imgPath } from '../utils/money.js';
 
@@ -69,32 +69,7 @@ container.innerHTML = productsHTML;
 
 
 let addToCartButtons = document.querySelectorAll(".js-add-to-cart");
-let cartQuantityElement = document.querySelector(".cart-quantity");
-let cartNotificationId;
 
-
-function updateCartQuantity(addedToCartNotification, productQuantityDropdown) {
-
-  let cartQuantity = 0;
-  cart.forEach(item => {
-      cartQuantity += item.selectedQuantity;
-  });
-
-  cartQuantityElement.innerHTML = cartQuantity;
-  addedToCartNotification.style.opacity = 1;
-
-  if (cartNotificationId) {
-      clearTimeout(cartNotificationId);
-  }
-
-  cartNotificationId = setTimeout(() => {
-      addedToCartNotification.style.opacity = 0;
-      productQuantityDropdown.value = 1;
-  }, 2000);
-
-  
-  console.log(cart);
-}
 
 
 addToCartButtons.forEach((button) => {
