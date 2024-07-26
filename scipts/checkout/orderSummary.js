@@ -5,22 +5,20 @@ import {deliveryOptions,getDeliveryOption,displayDate} from '../../data/delivery
 import {renderPaymentSummary} from './paymentSummary.js';
 
 
-let cartItems = document.querySelector('.cart-items');
-cartItems.innerHTML = displayCartQuantity() + ' items';
+
 
 export function orderSummary(){
+
+let cartItems = document.querySelector('.cart-items');
 let cartsHTML = "";
 
+cartItems.innerHTML = displayCartQuantity() + ' items';
 
 cart.forEach((cartItem, index) => {
   const productId = cartItem.productId;
   const matchingProduct = getProduct(productId);
   const deliveryOptionId = cartItem.deliveryOptionId;
   const deliveryOption = getDeliveryOption(deliveryOptionId);
-
-
-
-  
 
 
     cartsHTML += `
@@ -82,6 +80,7 @@ deleteLink.forEach((link)=>{
     removeFromCart(dataProductId);
     orderSummary();
     renderPaymentSummary();
+    displayCartQuantity();
     // window.location.reload();
   });
 });
@@ -122,6 +121,7 @@ saveQuantityLink.forEach((saveLink, index) => {
       quantityLabel[index].style.display = 'initial';
       orderSummary();
       renderPaymentSummary();
+      displayCartQuantity();
       // window.location.reload();
     } else {
       // Handle invalid input (e.g., display an error message)
@@ -204,6 +204,5 @@ jsDeliveryOption.forEach((element)=>{
 
 }
 
-// orderSummary();
 
 
