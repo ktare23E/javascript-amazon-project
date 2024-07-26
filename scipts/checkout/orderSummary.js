@@ -1,10 +1,11 @@
-import {cart,removeFromCart,updatedQuantityFunction,saveToStorage,updateDeliveryOption} from '../../data/cart.js';
+import {cart,removeFromCart,updatedQuantityFunction,saveToStorage,updateDeliveryOption,displayCartQuantity} from '../../data/cart.js';
 import {products,getProduct} from '../../data/products.js';
 import { formatCurrency,productName,imgPath } from '../utils/money.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import {deliveryOptions,getDeliveryOption} from '../../data/deliveryOptions.js';
 
-
+let cartItems = document.querySelector('.cart-items');
+cartItems.innerHTML = displayCartQuantity();
 
 export function orderSummary(){
 let cartsHTML = "";

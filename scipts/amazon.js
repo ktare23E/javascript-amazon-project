@@ -1,8 +1,8 @@
-import {cart,addToCart} from "../data/cart.js";
+import {cart,addToCart,displayCartQuantity} from "../data/cart.js";
 import {products} from '../data/products.js';
 import { formatCurrency,productName,imgPath } from './utils/money.js';
 
-
+document.querySelector('.cart-quantity').innerHTML = displayCartQuantity();
 
 let productsHTML = "";
 
