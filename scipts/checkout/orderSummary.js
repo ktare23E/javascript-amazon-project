@@ -2,6 +2,7 @@ import {cart,removeFromCart,updatedQuantityFunction,saveToStorage,updateDelivery
 import {products,getProduct} from '../../data/products.js';
 import { formatCurrency,productName,imgPath } from '../utils/money.js';
 import {deliveryOptions,getDeliveryOption,displayDate} from '../../data/deliveryOptions.js';
+import {renderPaymentSummary} from './paymentSummary.js';
 
 
 let cartItems = document.querySelector('.cart-items');
@@ -79,7 +80,9 @@ deleteLink.forEach((link)=>{
     let dataProductId = link.getAttribute('data-product-id');
     let selectedQuantity = link.getAttribute('data-selected-quantity');
     removeFromCart(dataProductId);
-    window.location.reload();
+    orderSummary();
+    renderPaymentSummary();
+    // window.location.reload();
   });
 });
 
@@ -117,7 +120,9 @@ saveQuantityLink.forEach((saveLink, index) => {
       saveQuantityLink[index].style.display = 'none';
       quantityInput[index].style.display = 'none';
       quantityLabel[index].style.display = 'initial';
-      window.location.reload();
+      orderSummary();
+      renderPaymentSummary();
+      // window.location.reload();
     } else {
       // Handle invalid input (e.g., display an error message)
       alert('Invalid quantity input');
@@ -130,7 +135,7 @@ quantityInput.forEach((inputNumber, index) => {
     let savedProductId = inputNumber.getAttribute('data-product-id');
     let myQuantity = event.target.value;
 
-    console.log(myQuantity);
+    // console.log(myQuantity);
   });
 
   inputNumber.addEventListener('keydown', (event) => {
@@ -146,8 +151,9 @@ quantityInput.forEach((inputNumber, index) => {
         inputNumber.value = '';
 
         // Additional logic if needed...
-
-        window.location.reload(); // Reload the page or perform other actions
+        orderSummary();
+        renderPaymentSummary();
+        // window.location.reload(); // Reload the page or perform other actions
       } else {
         // Handle invalid input (e.g., display an error message)
         alert('Invalid quantity input');
@@ -190,11 +196,14 @@ jsDeliveryOption.forEach((element)=>{
     let productId = element.getAttribute('data-product-id');
     let deliveryOptionId = element.getAttribute('data-delivery-option-id');
     updateDeliveryOption(productId,deliveryOptionId);
-    location.reload();
+    orderSummary();
+    renderPaymentSummary();
+    // location.reload();
   });
 });
 
 }
 
+// orderSummary();
 
 
