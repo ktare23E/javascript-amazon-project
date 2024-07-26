@@ -1,6 +1,6 @@
 import {cart,removeFromCart,updatedQuantityFunction,saveToStorage,updateDeliveryOption} from '../../data/cart.js';
 import {products,getProduct} from '../../data/products.js';
-import { formatCurrency,productName,imgPath } from '../../utils/money.js';
+import { formatCurrency,productName,imgPath } from '../utils/money.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import {deliveryOptions,getDeliveryOption} from '../../data/deliveryOptions.js';
 
@@ -75,12 +75,12 @@ cart.forEach((cartItem, index) => {
 
 
 let container = document.querySelector(".order-summary");
-container.innerHTML += cartsHTML;
+container.innerHTML = cartsHTML;
 
 let deleteLink = document.querySelectorAll('.delete-quantity-link');
 
 
-deleteLink.forEach((link,index)=>{
+deleteLink.forEach((link)=>{
   link.addEventListener('click',()=>{
     let dataProductId = link.getAttribute('data-product-id');
     let selectedQuantity = link.getAttribute('data-selected-quantity');
