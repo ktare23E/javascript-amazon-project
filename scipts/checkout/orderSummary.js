@@ -1,11 +1,8 @@
 import {cart,removeFromCart,updatedQuantityFunction,saveToStorage,updateDeliveryOption,displayCartQuantity} from '../../data/cart.js';
 import {products,getProduct} from '../../data/products.js';
 import { formatCurrency,productName,imgPath } from '../utils/money.js';
-import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
-import {deliveryOptions,getDeliveryOption} from '../../data/deliveryOptions.js';
-import test from '../utils/money.js';
+import {deliveryOptions,getDeliveryOption,displayDate} from '../../data/deliveryOptions.js';
 
-test();
 
 let cartItems = document.querySelector('.cart-items');
 cartItems.innerHTML = displayCartQuantity() + ' items';
@@ -21,18 +18,14 @@ cart.forEach((cartItem, index) => {
   const deliveryOption = getDeliveryOption(deliveryOptionId);
 
 
-  const today = dayjs();
-  const deliveryDate = today.add(deliveryOption.deliveryDays,'days');
-  const daysFormatted = deliveryDate.format('dddd, MMMM D');
 
   
-  const monthAndDay = deliveryDate.format('MMMM D');
-  console.log(monthAndDay);
+
 
     cartsHTML += `
     <div class="cart-item-container js-cart-item-container-${productId}">
     <div class="delivery-date">
-      Delivery date: ${daysFormatted}
+      Delivery date: ${displayDate(deliveryOption)}
     </div>
 
     <div class="cart-item-details-grid">
@@ -168,9 +161,6 @@ function deliveryOptionsHTML(matchingProduct,cartItem){
   let optionsHTML = '';
     deliveryOptions.forEach(deliveryOption => {
   
-      const today = dayjs();
-      const deliveryDate = today.add(deliveryOption.deliveryDays,'days');
-      const daysFormatted = deliveryDate.format('dddd, MMMM D');
 
       const priceString = deliveryOption.priceCents === 0 ? 'Free': `$${formatCurrency(deliveryOption.priceCents)} -`;
       const isChecked = deliveryOption.id === cartItem.deliveryOptionId ?  'checked' : '';
@@ -181,7 +171,7 @@ function deliveryOptionsHTML(matchingProduct,cartItem){
         name="delivery-option-${matchingProduct.id}">
       <div>
         <div class="delivery-option-date add-sevenDays">
-            ${daysFormatted}
+            ${displayDate(deliveryOption)}
         </div>
         <div class="delivery-option-price">
           ${priceString} Shipping
