@@ -58,9 +58,6 @@ export function renderPaymentSummary() {
                                 </button>
                                 `;
                                 
-                                let ternaryItems = totalCartQuantity > 1 ? `${totalCartQuantity} items` : `${totalCartQuantity} item`;
-                                let cartItemsHeader = document.querySelector('.cart-items');
-                                cartItemsHeader.innerHTML = `${ternaryItems}`;
                                 let orderSummaryContainer = document.querySelector('.js-payment-summary');
                                 orderSummaryContainer.innerHTML = paymentSummaryHTML;
 

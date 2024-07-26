@@ -5,7 +5,7 @@ import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import {deliveryOptions,getDeliveryOption} from '../../data/deliveryOptions.js';
 
 let cartItems = document.querySelector('.cart-items');
-cartItems.innerHTML = displayCartQuantity();
+cartItems.innerHTML = displayCartQuantity() + ' items';
 
 export function orderSummary(){
 let cartsHTML = "";
@@ -85,7 +85,7 @@ deleteLink.forEach((link)=>{
   link.addEventListener('click',()=>{
     let dataProductId = link.getAttribute('data-product-id');
     let selectedQuantity = link.getAttribute('data-selected-quantity');
-    removeFromCart(dataProductId,selectedQuantity);
+    removeFromCart(dataProductId);
     window.location.reload();
   });
 });
