@@ -48,6 +48,8 @@ products.forEach((product,index) => {
   </div>
 
   <div class="product-spacer"></div>
+  
+  ${product.htmlLink()}
 
   <div class="added-to-cart js-added-to-cart-${product.id}">
     <img src="images/icons/checkmark.png">
