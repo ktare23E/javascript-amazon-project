@@ -78,7 +78,7 @@ function renderProductsGrid(){
   function updateCartQuantity(addedToCartNotification,productQuantityDropdown) { 
     let cartQuantity = 0;
     cart.forEach((item) => {
-        cartQuantity += item.selectedQuantity;
+        cartQuantity += item.quantity;
     });
 
     cartQuantityElement.innerHTML = cartQuantity;
@@ -105,12 +105,12 @@ function renderProductsGrid(){
       let addedToCartNotification = document.querySelector(`.js-added-to-cart-${productId}`);
       // let productIndex = button.getAttribute("data-product-index");
       let productQuantityDropdown = document.querySelector(`#product-quantity-${productId}`); // Get the dropdown element
-      let selectedQuantity = productQuantityDropdown.value;
-      // selectedQuantity = parseInt(selectedQuantity);
-      selectedQuantity = Number(selectedQuantity);
+      let quantity = productQuantityDropdown.value;
+      // quantity = parseInt(quantity);
+      quantity = Number(quantity);
       
     
-      addToCart(productId,productName,productPrice,selectedQuantity);
+      addToCart(productId,productName,productPrice,quantity);
       updateCartQuantity(addedToCartNotification,productQuantityDropdown);
 
     });
