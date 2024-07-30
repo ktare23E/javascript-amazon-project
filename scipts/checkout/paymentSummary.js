@@ -1,4 +1,4 @@
-import { cart } from '../../data/cart.js';
+import { cart,saveToStorage,loadFromStorage } from '../../data/cart.js';
 import { getProduct } from '../../data/products.js';
 import { getDeliveryOption } from '../../data/deliveryOptions.js';
 import { formatCurrency } from '../utils/money.js';
@@ -72,14 +72,14 @@ export function renderPaymentSummary() {
                                                 cart : cart
                                             }) 
                                         });
-    
+                                                                                
                                         const order = await response.json();
                                         addOrder(order);
-
                                     }catch(error){
                                         console.error('Error placing order',error);
                                     }
-                                
+                                    cart.splice(0,cart.length);
+                                    saveToStorage();
                                     window.location.href = 'orders.html';
                                 });
 

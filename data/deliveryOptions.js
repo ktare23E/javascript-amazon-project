@@ -34,3 +34,13 @@ export function displayDate(deliveryOption){
   const daysFormatted = deliveryDate.format('dddd, MMMM D');
   return daysFormatted;
 }
+
+export function humanReadableDate(date){
+  const readableDate = dayjs(date).format('MMMM D, YYYY h:mm A');
+  return readableDate;
+}
+
+export function arrivalDate(date){
+  const readableDate = dayjs(date).format('MMMM D, YYYY');
+  return readableDate;
+}
